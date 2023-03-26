@@ -1,4 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtGuard } from 'src/auth/jwt.guard';
 import { CheckPermissions } from 'src/utils/casl.decorator';
 import { PermissionsGuard } from 'src/utils/casl.guard';
 import { Action, Subject } from 'src/utils/constants.utils';
@@ -12,7 +13,7 @@ export class UserController {
     await this.userService.fillData();
   }
   @Get('Test')
-  @UseGuards(PermissionsGuard)
+  @UseGuards(JwtGuard, PermissionsGuard)
   @CheckPermissions([Action.Create, Subject.User])
   createUser() {
     return;

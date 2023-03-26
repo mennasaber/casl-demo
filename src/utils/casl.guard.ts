@@ -14,10 +14,9 @@ export class PermissionsGuard implements CanActivate {
         PERMISSION_KEY,
         context.getHandler(),
       ) || [];
-    // ************ Temp solution you can replace it with JWT strategy ************
     const req = context.switchToHttp().getRequest();
-    const user = req.headers['user'];
-    const ability = await this.abilityFactory.createForUser(user);
+    const user = req.user;
+    const ability = await this.abilityFactory.createForUser(user._id);
     return requiredPermissions.every((permission) => {
       return ability.can(...permission);
     });
